@@ -115,7 +115,6 @@ echo "$kicksecure_repository_apt_line" > "${INSTALL_DIR}/$kicksecure_repository_
 aptUpdate
 
 [ -n "$DEBDEBUG" ] || export DEBDEBUG="1"
-[ -n "$tpo_downloader_debug" ] || export tpo_downloader_debug="1"
 
 aptInstall "$kicksecure_meta_package_to_install"
 
