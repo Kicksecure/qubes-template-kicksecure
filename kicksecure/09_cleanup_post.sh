@@ -46,7 +46,7 @@ source "${TEMPLATE_CONTENT_DIR}/vars.sh"
 source "${TEMPLATE_CONTENT_DIR}/distribution.sh"
 
 ##### '-------------------------------------------------------------------------
-debug ' Whonix post installation cleanup'
+debug ' Kicksecure post installation cleanup'
 ##### '-------------------------------------------------------------------------
 
 if [ -x "${INSTALL_DIR}/usr/lib/anon-dist/chroot-scripts-post.d/80_cleanup" ]; then
