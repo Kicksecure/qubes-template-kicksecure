@@ -3,7 +3,7 @@
 #
 # The Qubes OS Project, http://www.qubes-os.org
 #
-# Copyright (C) 2012 - 2022 ENCRYPTED SUPPORT LP <adrelanos@whonix.org>
+# Copyright (C) 2012 - 2024 ENCRYPTED SUPPORT LP <adrelanos@whonix.org>
 # Copyright (C) 2015 Jason Mehring <nrgaway@gmail.com>
 # Copyright (C) 2017 Marek Marczykowski-Górecki <marmarek@invisiblethingslab.com>
 # Copyright (C) 2022 Frédéric Pierret <frederic@invisiblethingslab.com>
@@ -76,30 +76,19 @@ env
 ## https://github.com/QubesOS/qubes-issues/issues/4957
 #[ -n "$kicksecure_repository_uri" ] || kicksecure_repository_uri="tor+http://deb.dds6qkxpwdeubwucdiaord2xgbbeyds25rbsgr73tbfpqpt4a6vjwsyd.onion"
 [ -n "$kicksecure_repository_uri" ] || kicksecure_repository_uri="https://deb.kicksecure.com"
-[ -n "$kicksecure_repository_uri" ] || kicksecure_repository_uri="https://deb.kicksecure.org"
 
 ## Better to build from bookworm-testers to test the upgrades.
 [ -n "$kicksecure_repository_suite" ] || kicksecure_repository_suite="bookworm-testers"
-[ -n "$kicksecure_repository_suite" ] || kicksecure_repository_suite="$kicksecure_repository_suite"
 [ -n "$kicksecure_signing_key_fingerprint" ] || kicksecure_signing_key_fingerprint="916B8D99C38EAF5E8ADC7A2A8D66066A2EEACCDA"
-[ -n "$kicksecure_signing_key_fingerprint" ] || kicksecure_signing_key_fingerprint="$kicksecure_signing_key_fingerprint"
 [ -n "$kicksecure_signing_key_file" ] || kicksecure_signing_key_file="${FLAVORS_DIR}/keys/kicksecure-developer-patrick.asc"
-[ -n "$kicksecure_signing_key_file" ] || kicksecure_signing_key_file="$kicksecure_signing_key_file"
 [ -n "$gpg_keyserver" ] || gpg_keyserver="keys.gnupg.net"
 [ -n "$kicksecure_repository_components" ] || kicksecure_repository_components="main"
-[ -n "$kicksecure_repository_components" ] || kicksecure_repository_components="$kicksecure_repository_components"
-[ -n "$kicksecure_repository_apt_line" ] || kicksecure_repository_apt_line="deb [signed-by=/usr/share/keyrings/derivative.asc] $kicksecure_repository_uri $kicksecure_repository_suite $kicksecure_repository_components"
 [ -n "$kicksecure_repository_apt_line" ] || kicksecure_repository_apt_line="deb [signed-by=/usr/share/keyrings/derivative.asc] $kicksecure_repository_uri $kicksecure_repository_suite $kicksecure_repository_components"
 [ -n "$kicksecure_repository_temporary_apt_sources_list" ] || kicksecure_repository_temporary_apt_sources_list="/etc/apt/sources.list.d/kicksecure_build.list"
 [ -n "$apt_target_key" ] || apt_target_key="/usr/share/keyrings/derivative.asc"
 
-if [ "${TEMPLATE_FLAVOR}" = "kicksecure-gateway" ]; then
-   [ -n "$kicksecure_meta_package_to_install" ] || kicksecure_meta_package_to_install="qubes-kicksecure-gateway"
-elif [ "${TEMPLATE_FLAVOR}" = "kicksecure-workstation" ]; then
-   [ -n "$kicksecure_meta_package_to_install" ] || kicksecure_meta_package_to_install="qubes-kicksecure-workstation"
-else
-   error "TEMPLATE_FLAVOR is neither kicksecure-gateway nor kicksecure-workstation, it is: ${TEMPLATE_FLAVOR}"
-fi
+
+[ -n "$kicksecure_meta_package_to_install" ] || kicksecure_meta_package_to_install="kicksecure-qubes-gui"
 
 kicksecure_signing_key_file_name="$(basename "$kicksecure_signing_key_file")"
 
@@ -122,17 +111,11 @@ else
 fi
 
 echo "$kicksecure_repository_apt_line" > "${INSTALL_DIR}/$kicksecure_repository_temporary_apt_sources_list"
-echo "$kicksecure_repository_apt_line" >> "${INSTALL_DIR}/$kicksecure_repository_temporary_apt_sources_list"
 
 aptUpdate
 
 [ -n "$DEBDEBUG" ] || export DEBDEBUG="1"
 [ -n "$tpo_downloader_debug" ] || export tpo_downloader_debug="1"
-
-if [ -n "$WHONIX_TBB_VERSION" ]; then
-    mkdir -p "${INSTALL_DIR}/etc/torbrowser.d"
-    echo "tbb_version=\"$WHONIX_TBB_VERSION\"" > "${INSTALL_DIR}/etc/torbrowser.d/80_template_builder_override.conf"
-fi
 
 aptInstall "$kicksecure_meta_package_to_install"
 
@@ -143,16 +126,6 @@ rm -f "${INSTALL_DIR}/$kicksecure_repository_temporary_apt_sources_list"
 if [ -e "${INSTALL_DIR}/etc/apt/sources.list.d/debian.list" ]; then
     info 'Remove original sources.list (Kicksecure package anon-apt-sources-list ships /etc/apt/sources.list.d/debian.list)'
     rm -f "${INSTALL_DIR}/etc/apt/sources.list"
-fi
-
-if [ -n "$WHONIX_TBB_VERSION" ]; then
-    # cleanup override after initial install
-    rm -f "${INSTALL_DIR}/etc/torbrowser.d/80_template_builder_override.conf"
-fi
-
-## Maybe Enable Tor.
-if [ "${TEMPLATE_FLAVOR}" == "kicksecure-gateway" ] && [ "${WHONIX_ENABLE_TOR}" -eq 1 ]; then
-    sed -i "s/^#DisableNetwork/DisableNetwork/g" "${INSTALL_DIR}/etc/tor/torrc"
 fi
 
 ## Workaround for Qubes bug:
