@@ -74,7 +74,7 @@ installQubesRepo
 env
 
 ## https://github.com/QubesOS/qubes-issues/issues/4957
-#[ -n "$kicksecure_repository_uri" ] || kicksecure_repository_uri="tor+http://deb.dds6qkxpwdeubwucdiaord2xgbbeyds25rbsgr73tbfpqpt4a6vjwsyd.onion"
+#[ -n "$kicksecure_repository_uri" ] || kicksecure_repository_uri="tor+http://deb.w5j6stm77zs6652pgsij4awcjeel3eco7kvipheu6mtr623eyyehj4yd.onion"
 [ -n "$kicksecure_repository_uri" ] || kicksecure_repository_uri="https://deb.kicksecure.com"
 
 ## Better to build from bookworm-testers to test the upgrades.
