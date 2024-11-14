@@ -47,7 +47,7 @@ source "${TEMPLATE_CONTENT_DIR}/vars.sh"
 source "${TEMPLATE_CONTENT_DIR}/distribution.sh"
 
 ##### '-------------------------------------------------------------------------
-debug ' Kicksecure post installation cleanup'
+debug 'Kicksecure chroot-scripts'
 ##### '-------------------------------------------------------------------------
 
 ## Check which chroot scripts we got.
