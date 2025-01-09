@@ -87,7 +87,7 @@ env
 [ -n "$kicksecure_repository_temporary_apt_sources_list" ] || kicksecure_repository_temporary_apt_sources_list="/etc/apt/sources.list.d/kicksecure_build.list"
 [ -n "$apt_target_key" ] || apt_target_key="/usr/share/keyrings/derivative.asc"
 
-[ -n "$kicksecure_meta_package_to_install" ] || kicksecure_meta_package_to_install="kicksecure-qubes-gui"
+[ -n "$kicksecure_package_list_to_install" ] || kicksecure_package_list_to_install="kicksecure-qubes-gui user-sysmaint-split"
 
 kicksecure_signing_key_file_name="$(basename "$kicksecure_signing_key_file")"
 
@@ -115,7 +115,9 @@ aptUpdate
 
 [ -n "$DEBDEBUG" ] || export DEBDEBUG="1"
 
-aptInstall "$kicksecure_meta_package_to_install"
+for kicksecure_package_to_install in $kicksecure_package_list_to_install; do
+   aptInstall "$kicksecure_package_to_install"
+done
 
 uninstallQubesRepo
 
@@ -139,6 +141,12 @@ UWT_DEV_PASSTHROUGH="1" aptRemove ntpdate || true
 # shellcheck disable=SC2086,SC2154
 UWT_DEV_PASSTHROUGH="1" DEBIAN_FRONTEND="noninteractive" DEBIAN_PRIORITY="critical" DEBCONF_NOWARNINGS="yes" \
     chroot_cmd $eatmydata_maybe apt-get "${APT_GET_OPTIONS[@]}" autoremove
+
+## Configure repository-dist to set up the Kicksecure repos on first boot
+## DERIVATIVE_APT_REPOSITORY_OPTS is expected to be set by builder
+chroot_cmd systemctl enable repository-dist-initializer.service
+mkdir -p "${INSTALL_DIR}/var/lib/repository-dist"
+echo "${DERIVATIVE_APT_REPOSITORY_OPTS}" > "${INSTALL_DIR}/var/lib/repository-dist/derivative_apt_repository_opts"
 
 ## Cleanup.
 umount_all "${INSTALL_DIR}/" || true
