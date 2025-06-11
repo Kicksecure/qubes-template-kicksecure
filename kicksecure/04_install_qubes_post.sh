@@ -87,7 +87,7 @@ env
 [ -n "$kicksecure_repository_temporary_apt_sources_list" ] || kicksecure_repository_temporary_apt_sources_list="/etc/apt/sources.list.d/kicksecure_build.list"
 [ -n "$apt_target_key" ] || apt_target_key="/usr/share/keyrings/derivative.asc"
 
-[ -n "$kicksecure_package_list_to_install" ] || kicksecure_package_list_to_install="kicksecure-qubes-gui user-sysmaint-split"
+[ -n "$kicksecure_package_list_to_install" ] || kicksecure_package_list_to_install="kicksecure-qubes-gui user-sysmaint-split sysmaint-panel"
 
 kicksecure_signing_key_file_name="$(basename "$kicksecure_signing_key_file")"
 
