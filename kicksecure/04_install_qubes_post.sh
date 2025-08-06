@@ -77,8 +77,8 @@ env
 #[ -n "$kicksecure_repository_uri" ] || kicksecure_repository_uri="tor+http://deb.w5j6stm77zs6652pgsij4awcjeel3eco7kvipheu6mtr623eyyehj4yd.onion"
 [ -n "$kicksecure_repository_uri" ] || kicksecure_repository_uri="https://deb.kicksecure.com"
 
-## Better to build from bookworm-testers to test the upgrades.
-[ -n "$kicksecure_repository_suite" ] || kicksecure_repository_suite="bookworm-testers"
+## Better to build from trixie-testers to test the upgrades.
+[ -n "$kicksecure_repository_suite" ] || kicksecure_repository_suite="trixie-testers"
 [ -n "$kicksecure_signing_key_fingerprint" ] || kicksecure_signing_key_fingerprint="916B8D99C38EAF5E8ADC7A2A8D66066A2EEACCDA"
 [ -n "$kicksecure_signing_key_file" ] || kicksecure_signing_key_file="${FLAVORS_DIR}/keys/kicksecure-developer-patrick.asc"
 [ -n "$gpg_keyserver" ] || gpg_keyserver="keys.gnupg.net"
