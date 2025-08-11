@@ -83,8 +83,13 @@ env
 [ -n "$kicksecure_signing_key_file" ] || kicksecure_signing_key_file="${FLAVORS_DIR}/keys/kicksecure-developer-patrick.asc"
 [ -n "$gpg_keyserver" ] || gpg_keyserver="keys.gnupg.net"
 [ -n "$kicksecure_repository_components" ] || kicksecure_repository_components="main"
-[ -n "$kicksecure_repository_apt_line" ] || kicksecure_repository_apt_line="deb [signed-by=/usr/share/keyrings/derivative.asc] $kicksecure_repository_uri $kicksecure_repository_suite $kicksecure_repository_components"
-[ -n "$kicksecure_repository_temporary_apt_sources_list" ] || kicksecure_repository_temporary_apt_sources_list="/etc/apt/sources.list.d/kicksecure_build.list"
+[ -n "$kicksecure_repository_sources" ] || kicksecure_repository_sources="Types: deb
+URIs: $kicksecure_repository_uri
+Suites: $kicksecure_repository_suite
+Components: $kicksecure_repository_components
+Enabled: yes
+Signed-By: /usr/share/keyrings/derivative.asc"
+[ -n "$kicksecure_repository_temporary_apt_sources_list" ] || kicksecure_repository_temporary_apt_sources_list="/etc/apt/sources.list.d/kicksecure_build.sources"
 [ -n "$apt_target_key" ] || apt_target_key="/usr/share/keyrings/derivative.asc"
 
 [ -n "$kicksecure_package_list_to_install" ] || kicksecure_package_list_to_install="kicksecure-qubes-gui user-sysmaint-split sysmaint-panel"
@@ -109,7 +114,7 @@ else
    chroot_cmd apt-key --keyring "$apt_target_key" adv --fingerprint "$kicksecure_signing_key_fingerprint"
 fi
 
-echo "$kicksecure_repository_apt_line" > "${INSTALL_DIR}/$kicksecure_repository_temporary_apt_sources_list"
+echo "$kicksecure_repository_sources" > "${INSTALL_DIR}/$kicksecure_repository_temporary_apt_sources_list"
 
 aptUpdate
 
@@ -123,8 +128,8 @@ uninstallQubesRepo
 
 rm -f "${INSTALL_DIR}/$kicksecure_repository_temporary_apt_sources_list"
 
-if [ -e "${INSTALL_DIR}/etc/apt/sources.list.d/debian.list" ]; then
-    info 'Remove original sources.list (Kicksecure package anon-apt-sources-list ships /etc/apt/sources.list.d/debian.list)'
+if [ -e "${INSTALL_DIR}/etc/apt/sources.list.d/debian.sources" ]; then
+    info 'Remove original sources file (Kicksecure package anon-apt-sources-list ships /etc/apt/sources.list.d/debian.sources)'
     rm -f "${INSTALL_DIR}/etc/apt/sources.list"
 fi
 
