@@ -1,5 +1,5 @@
 systemcheck.desktop
 firefox-esr.desktop
 thunar.desktop
-xfce4-settings-manager.desktop
-xfce4-terminal.desktop
+lxqt-config.desktop
+qterminal.desktop
