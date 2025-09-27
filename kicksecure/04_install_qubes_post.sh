@@ -110,8 +110,12 @@ else
    ## https://forums.whonix.org/t/apt-key-deprecation-apt-2-2-changes/11240
    chroot_cmd cp --verbose "${TMPDIR}/${kicksecure_signing_key_file_name}" "$apt_target_key"
 
-   ## Sanity test. apt-key adv would exit non-zero if not exactly that fingerprint in apt's keyring.
-   chroot_cmd apt-key --keyring "$apt_target_key" adv --fingerprint "$kicksecure_signing_key_fingerprint"
+   ## Sanity test. Ensure that the key fingerprint in the key file exactly matches the expected value.
+   ## apt-key no longer exists in Debian 13 and higher.
+   temp_key_file="$(chroot_cmd mktemp)"
+   chroot_cmd gpg --keyring "$temp_key_file" --no-default-keyring --import "$apt_target_key"
+   chroot_cmd gpg --keyring "$temp_key_file" --no-default-keyring --list-keys "$kicksecure_signing_key_fingerprint"
+   chroot_cmd rm "$temp_key_file"
 fi
 
 echo "$kicksecure_repository_sources" > "${INSTALL_DIR}/$kicksecure_repository_temporary_apt_sources_list"
