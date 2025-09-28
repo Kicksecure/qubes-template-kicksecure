@@ -77,8 +77,9 @@ env
 #[ -n "$kicksecure_repository_uri" ] || kicksecure_repository_uri="tor+http://deb.w5j6stm77zs6652pgsij4awcjeel3eco7kvipheu6mtr623eyyehj4yd.onion"
 [ -n "$kicksecure_repository_uri" ] || kicksecure_repository_uri="https://deb.kicksecure.com"
 
-## Better to build from trixie-testers to test the upgrades.
-[ -n "$kicksecure_repository_suite" ] || kicksecure_repository_suite="trixie-testers"
+## TODO: Better to build from trixie-testers to test the upgrades.
+## Only trixie-developers has packages right now.
+[ -n "$kicksecure_repository_suite" ] || kicksecure_repository_suite="trixie-developers"
 [ -n "$kicksecure_signing_key_fingerprint" ] || kicksecure_signing_key_fingerprint="916B8D99C38EAF5E8ADC7A2A8D66066A2EEACCDA"
 [ -n "$kicksecure_signing_key_file" ] || kicksecure_signing_key_file="${FLAVORS_DIR}/keys/kicksecure-developer-patrick.asc"
 [ -n "$gpg_keyserver" ] || gpg_keyserver="keys.gnupg.net"
@@ -92,7 +93,7 @@ Signed-By: /usr/share/keyrings/derivative.asc"
 [ -n "$kicksecure_repository_temporary_apt_sources_list" ] || kicksecure_repository_temporary_apt_sources_list="/etc/apt/sources.list.d/kicksecure_build.sources"
 [ -n "$apt_target_key" ] || apt_target_key="/usr/share/keyrings/derivative.asc"
 
-[ -n "$kicksecure_package_list_to_install" ] || kicksecure_package_list_to_install="kicksecure-qubes-gui user-sysmaint-split sysmaint-panel"
+[ -n "$kicksecure_package_list_to_install" ] || kicksecure_package_list_to_install="kicksecure-qubes-gui-lxqt user-sysmaint-split sysmaint-panel"
 
 kicksecure_signing_key_file_name="$(basename "$kicksecure_signing_key_file")"
 
