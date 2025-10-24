@@ -83,7 +83,7 @@ env
 [ -n "$kicksecure_signing_key_fingerprint" ] || kicksecure_signing_key_fingerprint="916B8D99C38EAF5E8ADC7A2A8D66066A2EEACCDA"
 [ -n "$kicksecure_signing_key_file" ] || kicksecure_signing_key_file="${FLAVORS_DIR}/keys/kicksecure-developer-patrick.asc"
 [ -n "$gpg_keyserver" ] || gpg_keyserver="keys.gnupg.net"
-[ -n "$kicksecure_repository_components" ] || kicksecure_repository_components="main"
+[ -n "$kicksecure_repository_components" ] || kicksecure_repository_components="main contrib non-free"
 [ -n "$kicksecure_repository_sources" ] || kicksecure_repository_sources="Types: deb
 URIs: $kicksecure_repository_uri
 Suites: $kicksecure_repository_suite
