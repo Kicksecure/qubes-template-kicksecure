@@ -67,7 +67,7 @@ aptInstall apt-transport-tor
 
 ## Install Qubes' repository so dependencies of the qubes-kicksecure package
 ## that gets installed by Kicksecure's build script will be available.
-## (Cant be done in '.kicksecure_prepared', because installQubesRepo's 'mount' does not survive reboots.)
+## (Cannot be done in '.kicksecure_prepared', because installQubesRepo's 'mount' does not survive reboots.)
 installQubesRepo
 
 ## Debugging.
