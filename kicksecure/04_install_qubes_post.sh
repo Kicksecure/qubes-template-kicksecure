@@ -67,7 +67,7 @@ aptInstall apt-transport-tor
 
 ## Install Qubes' repository so dependencies of the qubes-kicksecure package
 ## that gets installed by Kicksecure's build script will be available.
-## (Cant be done in '.kicksecure_prepared', because installQubesRepo's 'mount' does not survive reboots.)
+## (Cannot be done in '.kicksecure_prepared', because installQubesRepo's 'mount' does not survive reboots.)
 installQubesRepo
 
 ## Debugging.
@@ -91,7 +91,7 @@ Signed-By: /usr/share/keyrings/derivative.asc"
 [ -n "$kicksecure_repository_temporary_apt_sources_list" ] || kicksecure_repository_temporary_apt_sources_list="/etc/apt/sources.list.d/kicksecure_build.sources"
 [ -n "$apt_target_key" ] || apt_target_key="/usr/share/keyrings/derivative.asc"
 
-[ -n "$kicksecure_package_list_to_install" ] || kicksecure_package_list_to_install="kicksecure-qubes-gui-lxqt user-sysmaint-split sysmaint-panel"
+[ -n "$kicksecure_package_list_to_install" ] || kicksecure_package_list_to_install="kicksecure-qubes-gui-lxqt user-sysmaint-split sysmaint-panel firmware-nonfreedom-network"
 
 kicksecure_signing_key_file_name="$(basename "$kicksecure_signing_key_file")"
 
