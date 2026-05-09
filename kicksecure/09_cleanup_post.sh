@@ -1,6 +1,5 @@
 #!/bin/bash -e
 
-#
 # The Qubes OS Project, http://www.qubes-os.org
 #
 # Copyright (C) 2012 - 2025 ENCRYPTED SUPPORT LLC <adrelanos@whonix.org>
